@@ -276,28 +276,9 @@ This project is licensed under the MIT License. See the `LICENSE` file in the re
 
 ## 18. Architecture Diagram
 
-**Architecture diagram:** `[ADD ARCHITECTURE PDF/PPT PATH OR LINK]`
+**Architecture diagram:** [Google Drive Folder] `[[https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing\](https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing)](https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing)`
 
-Suggested architecture:
 
-``` text
-Streamlit Dashboard
-        |
-        | HTTP / JSON
-        v
-     FastAPI
-        |
-   +----+---------+---------+
-   |              |         |
-Twin Engine   Observation  Prediction
-              Validation    Engine
-   |              |         |
-   +--------------+---------+
-                  |
-               SQLite
-                  |
-             ML Predictor
-```
 
 The submission must include the architecture diagram in PDF/PPT format.
 
