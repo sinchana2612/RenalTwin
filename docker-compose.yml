@@ -1,0 +1,30 @@
+services:
+  api:
+    build: .
+    command: uvicorn renaltwin.api.main:app --host 0.0.0.0 --port 8000
+    ports: ["8000:8000"]
+    environment:
+      RT_DB_PATH: /app/artifacts/renaltwin.db
+      RT_ARTIFACT_DIR: /app/artifacts
+      RT_DATA_DIR: /app/data
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+  dashboard:
+    build: .
+    command: streamlit run dashboard/app.py --server.address 0.0.0.0 --server.port 8501
+    ports: ["8501:8501"]
+    environment:
+      RT_API_URL: http://api:8000
+      RT_ARTIFACT_DIR: /app/artifacts
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./data:/app/data

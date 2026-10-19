@@ -1,0 +1,11 @@
+creatinine: {unit: "mg/dL", min: 0.2, max: 20.0}
+egfr: {unit: "mL/min/1.73 m2", min: 1.0, max: 200.0}
+uacr: {unit: "mg/g", min: 0.0, max: 50000.0}
+hba1c: {unit: "%", min: 3.0, max: 25.0}
+potassium: {unit: "mmol/L", min: 1.5, max: 10.0}
+hemoglobin: {unit: "g/dL", min: 2.0, max: 25.0}
+sbp_clinic: {unit: "mmHg", min: 50.0, max: 300.0}
+hr_rest: {unit: "bpm", min: 25.0, max: 220.0}
+sbp_home: {unit: "mmHg", min: 50.0, max: 300.0}
+sleep_min: {unit: "min", min: 0.0, max: 1440.0}
+steps: {unit: "count", min: 0.0, max: 100000.0}

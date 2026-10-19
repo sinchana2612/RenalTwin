@@ -1,0 +1,4 @@
+DISCLAIMER = "Research prototype only. Not medical advice and not validated for clinical use."
+HORIZON_DAYS = 365
+FEATURE_NAMES = ["age_at_index","sex_male","diabetes","hypertension","cvd","egfr_last","egfr_mean_30d","egfr_min_365d","egfr_max_365d","pct_drop_from_max_365d","egfr_slope_per_year_365d","egfr_sd_365d","n_egfr_365d","days_since_last_egfr","log1p_uacr_last","hba1c_last","potassium_last","hemoglobin_last","sbp_clinic_last"]
+SENSOR_FEATURE_NAMES = FEATURE_NAMES + ["hr_rest_mean_7d","sbp_home_mean_7d","sleep_min_mean_7d","steps_mean_7d","sensor_coverage_28d"]

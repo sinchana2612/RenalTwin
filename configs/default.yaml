@@ -1,0 +1,9 @@
+seed: 42
+cohort_size: 3000
+horizon_days: 365
+confirmation_gap_days: 28
+lookback_days: 365
+split: {train: 0.70, validation: 0.15, test: 0.15}
+# Assumed simulator parameters; not clinical estimates.
+rapid_decliner_prevalence: 0.12
+measurement_noise_sd: 0.05
