@@ -277,9 +277,6 @@ This project is licensed under the MIT License. See the `LICENSE` file in the re
 **Architecture diagram:** [Google Drive Folder] `[https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing\]`
 
 
-
-The submission must include the architecture diagram in PDF/PPT format.
-
 ## 19. Presentation
 
 **Presentation link:** `(https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing)`
@@ -289,11 +286,6 @@ The submission must include the architecture diagram in PDF/PPT format.
 All submission files and links should be publicly accessible without
 additional permissions.
 
-Verify: - GitHub repository is public/accessibly shared - README is
-accessible - Source code is accessible - Architecture diagram is
-accessible - Presentation is accessible - Demo video is accessible -
-License is accessible - External links work without requesting private
-access
 
 ## 21. Limitations
 
@@ -318,25 +310,8 @@ data-standard integration - Secure authentication and authorization -
 Clinical workflow integration - Model monitoring and drift detection -
 Prospective clinical evaluation
 
-## 23. Submission Checklist
 
--   [ ] Team details
--   [ ] College / Incubator information
--   [ ] Project Title
--   [ ] Problem Statement
--   [ ] Healthcare Use Case
--   [ ] Technical Stack
--   [ ] AI/ML Model or Framework Details
--   [ ] 15--20 minute demo video uploaded as an unlisted YouTube video
--   [ ] Demo video link added to README
--   [ ] Open-source License Details
--   [ ] Architecture Diagram in PDF/PPT format
--   [ ] Presentation in PDF/PPT format covering project details and
-    outcomes
--   [ ] All files and links are publicly accessible without additional
-    permissions
-
-## 24. Disclaimer
+## 23. Disclaimer
 
 **RenalTwin is a research prototype only. It is not medical advice, is
 not clinically validated, and should not be used for diagnosis,
