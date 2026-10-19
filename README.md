@@ -23,8 +23,6 @@
 
 **Incubator / Innovation Centre:** `GSSS Technology Business Incubator Foundation`
 
-**Program / Hackathon:** `[ADD PROGRAM / HACKATHON]`
-
 ## 3. Project Title
 
 **RenalTwin \| Kidney Health Digital Twin**
@@ -263,7 +261,7 @@ These are demonstration values only and are not medical recommendations.
 
 ## 16. 15--20 Minute Demo Video
 
-**Demo Video:** [Google Drive Folder] `[[https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing\](https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing)](https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing)`
+**Demo Video:** [Google Drive Folder] `[[https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing\]`
 
 
 ## 17. Open-Source License Details
@@ -276,7 +274,7 @@ This project is licensed under the MIT License. See the `LICENSE` file in the re
 
 ## 18. Architecture Diagram
 
-**Architecture diagram:** [Google Drive Folder] `[[https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing\](https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing)](https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing)`
+**Architecture diagram:** [Google Drive Folder] `[https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing\]`
 
 
 
@@ -284,7 +282,7 @@ The submission must include the architecture diagram in PDF/PPT format.
 
 ## 19. Presentation
 
-**Presentation link:** `[\[ADD PRESENTATION PDF/PPT PATH OR LINK\]](https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing)`
+**Presentation link:** `(https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing)`
 
 ## 20. Public Accessibility
 
