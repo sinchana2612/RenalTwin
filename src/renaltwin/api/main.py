@@ -71,11 +71,15 @@ def observations(tid,type:str|None=None):
 def state(tid,as_of:str|None=None):
  try:return engine.state(tid,as_of)
  except KeyError:return error("not_found","Twin not found",404)
+ except RuntimeError as e:return error("feature_extraction_failed",str(e),500)
 @app.post("/api/v1/twins/{tid}/predict")
 def predict(tid,as_of:str|None=None):
  try:return engine.predict(tid,as_of)
  except KeyError:return error("not_found","Twin not found",404)
- except RuntimeError as e:return error("model_unavailable",str(e),503)
+ except RuntimeError as e:
+  if str(e).startswith("clinical_feature_extraction_failed"):
+   return error("feature_extraction_failed",str(e),500)
+  return error("model_unavailable",str(e),503)
  except ValueError as e:return error("not_ready",str(e),409)
 @app.get("/api/v1/twins/{tid}/risk-history")
 def risk_history(tid):

@@ -17,6 +17,7 @@ src/renaltwin/api/__init__.py
 src/renaltwin/api/main.py
 src/renaltwin/api/routers/__init__.py
 src/renaltwin/data/__init__.py
+src/renaltwin/data/build_dataset.py
 src/renaltwin/data/synthetic_cohort.py
 src/renaltwin/db/__init__.py
 src/renaltwin/db/store.py

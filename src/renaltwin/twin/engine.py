@@ -1,11 +1,12 @@
-import uuid, json, math
+import uuid, json, math, logging
 from datetime import datetime, timezone, timedelta
 import numpy as np, pandas as pd
 from renaltwin.db.store import connect
 from renaltwin.data.build_dataset import features_at
-from renaltwin.constants import DISCLAIMER
+from renaltwin.constants import DISCLAIMER, FEATURE_NAMES
 from renaltwin.ml.predictor import Predictor
 from renaltwin.units import convert, UnitError
+logger=logging.getLogger(__name__)
 ALLOWED={"creatinine","egfr","uacr","hba1c","potassium","hemoglobin","sbp_clinic","hr_rest","sbp_home","sleep_min","steps"}
 RANGES={"creatinine":(.2,20),"egfr":(1,200),"uacr":(0,50000),"hba1c":(3,25),"potassium":(1.5,10),"hemoglobin":(2,25),"sbp_clinic":(50,300),"hr_rest":(25,220),"sbp_home":(50,300),"sleep_min":(0,1440),"steps":(0,100000)}
 def now(): return datetime.now(timezone.utc).isoformat()
@@ -55,7 +56,7 @@ class TwinEngine:
         with connect() as c: rows=[dict(r) for r in c.execute("SELECT * FROM observations WHERE twin_id=? ORDER BY observed_at",(tid,)).fetchall()]
         labs=pd.DataFrame(rows);
         if labs.empty: labs=pd.DataFrame(columns=["obs_type","value","observed_at"])
-        labs["dt"]=pd.to_datetime(labs.observed_at,utc=True,errors="coerce") if len(labs) else pd.to_datetime([] ,utc=True)
+        labs["dt"]=pd.to_datetime(labs.observed_at,utc=True,errors="coerce",format="ISO8601") if len(labs) else pd.to_datetime([] ,utc=True)
         return profile,labs
     def state(self,tid,as_of=None):
         profile,labs=self.view(tid); asof=pd.Timestamp(as_of) if as_of else (labs.dt.max() if len(labs) else pd.Timestamp.now(tz="UTC"));
@@ -64,13 +65,28 @@ class TwinEngine:
         eg=labs[labs.obs_type=="egfr"] if len(labs) else labs; n=len(eg); span=(eg.dt.max()-eg.dt.min()).days if n>=2 else 0; age=(asof-pd.Timestamp(profile["created_at"])).days
         status="created" if not len(labs) else "static_only" if n<2 else "insufficient_history" if span<60 else "ready"
         if n and (asof-eg.dt.max()).days>365: status="stale"
-        features={};
-        if len(labs):
-            obj=type("P",(),{"age":profile["age"],"sex":profile["sex"],"diabetes":profile["diabetes"],"hypertension":profile["hypertension"],"cvd":profile["cvd"]})()
-            # convert stored observation shape into the feature builder's expected shape
-            fdf=labs[["obs_type","value","observed_at"]].copy(); fdf["observed_at"]=fdf.observed_at.astype(str)
-            try: features=__import__("renaltwin.data.build_dataset",fromlist=["features_at"]).features_at(obj,fdf,asof)
-            except Exception: features={}
+        # Keep the inference vector aligned exactly with the trained clinical
+        # model schema. Sensor observations are deliberately excluded.
+        fdf=labs.loc[labs.obs_type.isin({"egfr","uacr","hba1c","potassium","hemoglobin","sbp_clinic"}),["obs_type","value","observed_at"]].copy() if len(labs) else pd.DataFrame(columns=["obs_type","value","observed_at"])
+        features={
+            "age_at_index":float(profile["age"]),
+            "sex_male":float(str(profile["sex"]).upper()=="M"),
+            "diabetes":float(profile["diabetes"]),
+            "hypertension":float(profile["hypertension"]),
+            "cvd":float(profile["cvd"]),
+        }
+        if len(fdf):
+            try:
+                features.update(features_at(fdf, None, asof))
+            except Exception as exc:
+                logger.exception("Clinical feature extraction failed for twin %s", tid)
+                raise RuntimeError(f"clinical_feature_extraction_failed for twin {tid} at {asof.isoformat()}: {exc}") from exc
+        else:
+            # Retain a complete numeric feature vector for state inspection;
+            # status still prevents prediction without sufficient eGFR history.
+            features.update({name:0.0 for name in FEATURE_NAMES[5:]})
+            features["days_since_last_egfr"]=9999.0
+        features={name:float(features[name]) for name in FEATURE_NAMES}
         from renaltwin.egfr import ckd_stage
         latest=float(eg.sort_values("dt").iloc[-1].value) if n else None
         return {"twin_id":tid,"state_version":profile["state_version"],"as_of":asof.isoformat(),"status":status,"ckd_stage":ckd_stage(latest),"features":{k:{"value":(None if pd.isna(v) else float(v)),"value_origin":"derived","missing":bool(pd.isna(v))} for k,v in features.items()},"quality_flags":["synthetic_data" if profile["data_origin"]=="synthetic" else "deidentified_data"],"counts":{"egfr_365d":int(((eg.dt>=asof-pd.Timedelta(days=365))&(eg.dt<=asof)).sum()) if n else 0},"last_egfr_at":eg.dt.max().isoformat() if n else None,"disclaimer":DISCLAIMER}
@@ -88,7 +104,7 @@ class TwinEngine:
         feats={k:v["value"] for k,v in state["features"].items()}; result=self.predictor.predict(feats); pid=make_id("pr_");
         with connect() as c:
             c.execute("INSERT INTO predictions VALUES(?,?,?,?,?,?,?,?,?)",(pid,tid,state["as_of"],state["state_version"],result["risk_probability"],result["risk_band"],result["model_version"],json.dumps(feats),now()))
-        return {"prediction_id":pid,"twin_id":tid,"as_of":state["as_of"],"state_version":state["state_version"],"status":"ok","reason":None,"horizon_days":365,**result,"top_contributors":[],"quality_flags":state["quality_flags"]}
+        return {"prediction_id":pid,"twin_id":tid,"as_of":state["as_of"],"state_version":state["state_version"],"status":"ok","reason":None,"horizon_days":365,**result,"features":feats,"top_contributors":[],"quality_flags":state["quality_flags"]}
     def risk_history(self,tid):
         if not self._exists(tid): raise KeyError(tid)
         with connect() as c:return [dict(r) for r in c.execute("SELECT * FROM predictions WHERE twin_id=? ORDER BY as_of",(tid,)).fetchall()]

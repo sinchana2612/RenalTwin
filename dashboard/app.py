@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import os
-from datetime import datetime, timezone, date
+from datetime import datetime, timezone, date, timedelta
+from uuid import uuid4
 
 import pandas as pd
 import requests
@@ -424,7 +425,7 @@ if selected_twin_id:
                 "Observation": "egfr",
                 "Value": 72.0,
                 "Unit": "mL/min/1.73m²",
-                "Observed date": date.today(),
+                "Observed date": date.today() - timedelta(days=90),
             },
             {
                 "Observation": "egfr",
@@ -552,11 +553,12 @@ if selected_twin_id:
                     observation_date.date()
                 )
 
-            observed_at = datetime.combine(
-                observation_date,
-                datetime.min.time(),
-            ).replace(
-                tzinfo=timezone.utc
+            # Preserve the selected date while making a corrected same-day
+            # measurement newer than its previous stored value.
+            observed_at = datetime.now(timezone.utc).replace(
+                year=observation_date.year,
+                month=observation_date.month,
+                day=observation_date.day,
             )
 
             observations.append(
@@ -568,7 +570,7 @@ if selected_twin_id:
                     "unit": unit,
                     "observed_at":
                         observed_at.isoformat(),
-                    "source_id": "dashboard",
+                    "source_id": f"dashboard-{uuid4().hex}",
                     "provenance": "manual",
                 }
             )
@@ -700,6 +702,14 @@ if selected_twin_id:
                 f"Model {prediction.get('model_version', '—')} · "
                 f"Feature set {prediction.get('feature_set', '—')}"
             )
+
+            st.caption(
+                "Calculated from this twin's stored observations at "
+                f"{prediction.get('as_of', 'unknown time')}."
+            )
+
+            with st.expander("Features used for this prediction"):
+                st.json(prediction.get("features", {}))
 
             contributors = prediction.get(
                 "top_contributors",

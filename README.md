@@ -261,7 +261,7 @@ These are demonstration values only and are not medical recommendations.
 
 ## 16. 15--20 Minute Demo Video
 
-**Demo Video:** [Google Drive Folder] `[[https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing\]`
+**Demo Video:** [Google Drive Folder] `https://drive.google.com/file/d/1wrXwbEkVWjnv2_DfBHy3eo_x2VfIWfzc/view?usp=drive_link`
 
 
 ## 17. Open-Source License Details
@@ -274,12 +274,12 @@ This project is licensed under the MIT License. See the `LICENSE` file in the re
 
 ## 18. Architecture Diagram
 
-**Architecture diagram:** [Google Drive Folder] `[https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing\]`
+**Architecture diagram:** [Google Drive Folder] `https://drive.google.com/file/d/1AlahDz4qTc-hbGky7NI3RWa4r14hH274/view?usp=sharing`
 
 
 ## 19. Presentation
 
-**Presentation link:** `(https://drive.google.com/drive/folders/18TkY7m7qhm3IRCK4_veW3Es5fQPzfCD-?usp=sharing)`
+**Presentation link:** `https://docs.google.com/presentation/d/1fjNPyxcXtI1m2ChZlnhmGLuOKrkxDFoT/edit?usp=drive_link&ouid=107814386998611159140&rtpof=true&sd=true`
 
 ## 20. Public Accessibility
 

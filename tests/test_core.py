@@ -14,6 +14,6 @@ def test_units():
  else: assert False
 def test_stage(): assert ckd_stage(95)=="G1" and ckd_stage(12)=="G5"
 def test_synth_deterministic():
- a=generate_cohort(40,7); b=generate_cohort(40,7); assert a["patients"].equals(b["patients"]); assert len(a["labs"])>0
+ a=generate_cohort(40,7); b=generate_cohort(40,7); assert a["patients"]==b["patients"]; assert len(a["labs"])>0
 def test_feature_builder_no_future_data():
  c=generate_cohort(20,9); df=build_training_table(c); assert len(df)>0; assert "latent_class" not in df.columns and "true_slope" not in df.columns
